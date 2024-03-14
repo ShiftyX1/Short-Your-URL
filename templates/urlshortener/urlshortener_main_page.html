@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+
+{% block title %}Сократить URL{% endblock title %}
+
+{% block content %}
+      {% if error_connection %}
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          const modal = new bootstrap.Modal(document.getElementById('modal'));
+            // открывает модальное окно
+          modal.show();
+
+          const dummy = document.getElementsByClassName("modal-backdrop fade show");
+          dummy[0].remove();
+          });
+      </script>
+        <!--<p class='h6'>{{ error_connection }} <a href='subscription/'>подписка</a></p>-->
+        <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Информация</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <img class="img-fluid" src="/examples/images/admin-dashboard.jpg" alt="">
+                <p>Не удалось достучаться до сайта по адресу {{ error_connection }}, <b>возможно вы указали некорректный адрес</b>.</p>
+                <p> <small class='text-muted'>Если у вас удается это сделать, то возможно ссылка ведет на расположение в закрытой сети, чтобы создать короткую ссылку такого сайта, необходима</small> <a href='subscription/'>подписка</a>.</p>
+              </div>
+              <div class="modal-footer">
+                <a href='subscription/'><button type="button" class="btn btn-primary">Ознакомится с тарифами</button></a>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Нет, спасибо</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+
+{% bootstrap_messages %}
+
+{# Display a form #}
+<!--<div class='position-relative'>-->
+<img src="{% static 'img/fon.jpeg' %}" class="img-fluid">
+  <div class='position-absolute top-50 end-50 translate-middle-y shadow p-3 mb-5 bg-body rounded border border-primary opacity-div-anim'>
+    <div class='col'>
+      <p class-"h4">Сокращение ссылки</p>
+      <form method="post" class="form row">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons %}
+        {% if error %}
+          <p class='h6 text-danger'>{{ error }}</p>
+        {% endif %}
+          <button type="submit" class="btn btn-primary" name="action" value="url">
+            Сократить
+          </button>
+        {% endbuttons %}
+      </form>
+    </div>
+</div>
+<div class='position-absolute top-50 start-50 translate-middle-y shadow p-3 mb-5 bg-body rounded border border-primary opacity-div-anim'>
+  <div class="row">
+    <div class='col'>
+      <p class-"h4">Генерация QR</p>
+      <form method="post" class="form row">
+        {% csrf_token %}
+        {% bootstrap_form form_qr %}
+        {% buttons %}
+          <button type="submit" class="btn btn-primary" name="action" value="qr">
+            Сгенерировать QR
+          </button>
+        {% endbuttons %}
+      </form>
+    </div>
+    <div class="col">
+      <figure class="figure">
+        {% if path_to_qr %}
+          <img src="{{ path_to_qr }}" class="figure-img img-fluid rounded" alt="figure-img">
+        {% endif %}
+        <figcaption class="figure-caption">{{ text_under_qr }}</figcaption>
+      </figure>
+    </div>
+  </div>
+</div>
+{% endblock content %}

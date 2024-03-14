@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+{% load static %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% bootstrap_messages %}
+<html>
+    <head>
+        <title>{% block title %}BASE TITLE{% endblock title %}</title>
+        <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}" width=32px>
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <div id="bg">
+            <canvas></canvas>
+            <canvas></canvas>
+            <canvas></canvas>
+            {% block content %}
+            {% endblock content %}
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <script src="{% static 'js/script.js' %}"></script>
+    </body>
+</html>
