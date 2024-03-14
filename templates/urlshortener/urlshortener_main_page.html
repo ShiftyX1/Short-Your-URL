@@ -72,12 +72,42 @@
               </div>
             </div>
         {% endif %}
+        {% if short_url %}
+        <script>
+          document.addEventListener('DOMContentLoaded', function() {
+            const modal = new bootstrap.Modal(document.getElementById('modalurl'));
+              // открывает модальное окно
+            modal.show();
+
+            const dummy = document.getElementsByClassName("modal-backdrop fade show");
+            dummy[0].remove();
+          });
+        </script>
+          <!--<p class='h6'>{{ error_connection }} <a href='subscription/'>подписка</a></p>-->
+          <div class="modal fade" id="modalurl" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Сокращенная ссылка</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <p>Ваша укороченная ссылка: <span class="mark">{{ short_url }}</span>.</p>
+                  <p> <small class='text-muted'>Укороченная ссылка готова!</small>.</p>
+                </div>
+                <div class="modal-footer">
+                  <a href="{{ path_to_qr }}"><button type="button" class="btn btn-primary">Сохранить</button></a>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                </div>
+              </div>
+            </div>
+          </div>
+      {% endif %}
 
 {% bootstrap_messages %}
 
 {# Display a form #}
 <!--<div class='position-relative'>-->
-<img src="{% static 'img/fon.jpeg' %}" class="img-fluid">
   <div class='position-absolute top-50 end-50 translate-middle-y shadow p-3 mb-5 bg-body rounded border border-primary opacity-div-anim'>
     <div class='col'>
       <p class-"h4">Сокращение ссылки</p>

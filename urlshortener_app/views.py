@@ -21,11 +21,11 @@ def short_to_dest_url(request, short_url):
             dest_object = FreeShortedUrls.objects.get(url_in_db=short_url)
 
         if (int(time.time()) - dest_object.dead_link_time) >= 0:
-            return HttpResponse("<h2>УПС, ссылка более недействительна :(</h2>")
+            return render(request, 'urlshortener/error_link_dead_time.html')
         
         return HttpResponseRedirect(dest_object.destination_url)
     except ObjectDoesNotExist:
-        return HttpResponse(f"<h2>УПС, короткая ссылка не найдена :(</h2>")
+        return render(request, 'urlshortener/error_link_not_found.html')
 
 def index(request):
     url_fast_short = FastShortUrl()
@@ -44,9 +44,9 @@ def index(request):
         
             try:
                 requests.get(url=destination_url)
-                result_url = UrlShortener.short_url_free()
-                FreeShortedUrls.objects.create(destination_url=destination_url, ttl=int(time_option) / 60, dead_link_time=int(time.time()) + int(time_option), url_in_db=result_url)
-                return HttpResponse(f"<h2>{destination_url}</h2><h3>{time_option}</h3>")
+                result_url = UrlShortener.short_url_free(host_url=scheme + "://" + hostname + "/")
+                FreeShortedUrls.objects.create(destination_url=destination_url, ttl=int(time_option) / 60, dead_link_time=int(time.time()) + int(time_option), url_in_db=result_url[0])
+                return render(request, "urlshortener/urlshortener_main_page.html", {'form': url_fast_short, 'form_qr': qr_form, 'short_url': result_url[1]})
             except Exception as exception:
                 exceptions = {
                     'MissingSchema': {

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+{% block title %}Ссылка недействительна{% endblock title %}
+
+{% block content %}
+
+<div class='position-absolute top-50 start-50 translate-middle rounded opacity-div-anim'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p class='h3'>Ссылка больше не действительна</p>
+            </div>
+            <div class='modal-body'>
+                <p class='lead'>Обратитесь к создателю ссылки, чтобы он пересоздал ссылку</p>
+            </div>
+            <div class="modal-footer">
+                <a href="/"><button type="button" class="btn btn-primary">Перейти на главную</button></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -9,9 +9,9 @@ class UrlShortener:
         self.url_to_short = url_to_short
 
     @staticmethod
-    def short_url_free():
+    def short_url_free(host_url):
         url = ''.join(random.choices(string.ascii_letters + string.digits, k=10))
-        return url
+        return [url, host_url + url]
     
 
 class GenerateQR(UrlShortener):
