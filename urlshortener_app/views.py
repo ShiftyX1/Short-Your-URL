@@ -43,7 +43,7 @@ def index(request):
             time_option = request.POST.get('options_time')
         
             try:
-                test_url = requests.get(url=destination_url)
+                requests.get(url=destination_url)
                 result_url = UrlShortener.short_url_free()
                 FreeShortedUrls.objects.create(destination_url=destination_url, ttl=int(time_option) / 60, dead_link_time=int(time.time()) + int(time_option), url_in_db=result_url)
                 return HttpResponse(f"<h2>{destination_url}</h2><h3>{time_option}</h3>")
@@ -65,8 +65,7 @@ def index(request):
                                     'form_qr': qr_form
                                 }
                 }
-                context = exceptions[exception.__class__.__name__]
-                return render(request, "urlshortener/urlshortener_main_page.html", context)
+                return render(request, "urlshortener/urlshortener_main_page.html", context=exceptions[exception.__class__.__name__])
         elif request.POST.get('action') == 'qr':
             destination_url = request.POST.get('input_url_qr')
             if (destination_url.split('/')[0] != 'https:'):
@@ -75,7 +74,7 @@ def index(request):
             time_option_qr = request.POST.get('options_time_qr')
         
             try:
-                test_url = requests.get(url=destination_url)
+                requests.get(url=destination_url)
                 result_qr_list = GenerateQR.generate_qr_free(host_url=scheme + "://" + hostname + "/")
                 FreeGeneratedQR.objects.create(destination_url=destination_url, ttl=int(time_option_qr) / 60, dead_link_time=int(time.time()) + int(time_option_qr), url_in_db=result_qr_list[1])
                 return render(request, "urlshortener/urlshortener_main_page.html", {'form': url_fast_short, 'form_qr': qr_form, 'text_under_qr': "Ваш QR-код", 'path_to_qr': result_qr_list[0]})
@@ -100,8 +99,7 @@ def index(request):
                                     'text_under_qr': "Здесь будет QR-код после его генерации"
                                 }
                 }
-                context = exceptions[exception.__class__.__name__]
-                return render(request, "urlshortener/urlshortener_main_page.html", context)
+                return render(request, "urlshortener/urlshortener_main_page.html", context=exceptions[exception.__class__.__name__])
     else:        
         return render(request, "urlshortener/urlshortener_main_page.html", {'form': url_fast_short, 'form_qr': qr_form, 'text_under_qr': "Здесь будет QR-код после его генерации"})
 
