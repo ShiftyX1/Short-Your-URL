@@ -1,0 +1,21 @@
+version: '3.7'
+
+services:
+  shorturl_db:
+    image: postgres:15.6-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_PASSWORD: postgres
+  shorturl_web:
+    build: .
+    command: python /usr/src/shorturl/manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/usr/src/shorturl
+    ports:
+      - 8000:8000
+    depends_on:
+      - shorturl_db
+
+volumes:
+  postgres_data:
