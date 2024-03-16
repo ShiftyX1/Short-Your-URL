@@ -22,7 +22,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-1-qlhcu^60fh6dx93)oy7^$gj1(fp2wl23$x@0g7m-5vlv5#ug'
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0']
@@ -72,33 +71,20 @@ TEMPLATES = [
 WSGI_APPLICATION = 'urlshortener.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-
-#DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#        'NAME': 'shorturl_db',
-#        'USER': 'django_admin',
-#        'PASSWORD': 'Temp1234',
-#        'HOST': '127.0.0.1',
-#        'PORT': '5432',
-#    }
-#}
+# Базы данных
+# Для локального запуска раскомментируйте строки с sqlite3
 
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
+        'NAME': 'shorturl',
+        'USER': 'django_admin',
+        'PASSWORD': 'password',
         'HOST': 'shorturl_db',
         'PORT': 5432,
     }
 }
-
-
 
 
 #DATABASES = {
